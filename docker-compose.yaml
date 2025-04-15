@@ -1,0 +1,18 @@
+services:
+  mysql8:
+    image: mysql:8.0.29  # 使用 MySQL 8.0.29 版本的镜像
+    restart: always  # 容器停止时自动重启
+    command: --default-authentication-plugin=mysql_native_password  # 设置 MySQL 使用default的身份验证插件，防止某些客户端连接失败
+    environment:
+      MYSQL_ROOT_PASSWORD: root  # 设置 root 用户的密码为 root
+    volumes:
+      - ./script/mysql/:/docker-entrypoint-initdb.d/
+    ports:
+      - "33306:3306"
+
+  redis:
+    image: 'bitnami/redis:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - '36379:6379'

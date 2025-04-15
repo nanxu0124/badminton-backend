@@ -1,0 +1,7 @@
+db:
+  dsn: "root:root@tcp(localhost:33306)/badminton"
+
+redis:
+  addr: "localhost:36379"
+  password: ""
+  db: 1
