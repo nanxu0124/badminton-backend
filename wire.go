@@ -19,21 +19,28 @@ func InitWebServer() *gin.Engine {
 		ioc.InitDB, ioc.InitRedis,
 
 		dao.NewGormUserDAO,
+		dao.NewGormDailySummaryDAO,
 
-		cache.NewRedisUserCache, cache.NewRedisCodeCache,
+		cache.NewRedisUserCache,
+		cache.NewRedisCodeCache,
+		cache.NewRedisDailySummaryCache,
 
 		repository.NewCachedUserRepository,
 		repository.NewCachedCodeRepository,
+		repository.NewDailySummaryRepository,
 
 		service.NewUserService,
 		service.NewSMSCodeService,
-		ioc.InitSmsService,
+		service.NewDailySummaryService,
 
-		ijwt.NewRedisHandler,
-		web.NewUserHandler,
 		ioc.GinMiddlewares,
 		ioc.InitWebServer,
 		ioc.InitLogger,
+		ioc.InitSmsService,
+		ijwt.NewRedisHandler,
+
+		web.NewUserHandler,
+		web.NewDailySummaryHandler,
 	)
 
 	return new(gin.Engine)

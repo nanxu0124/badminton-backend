@@ -15,15 +15,16 @@ import (
 	"time"
 )
 
-func InitWebServer(funcs []gin.HandlerFunc, userHdl *web.UserHandler) *gin.Engine {
+func InitWebServer(funcs []gin.HandlerFunc, userHdl *web.UserHandler, summaryHdl *web.DailySummaryHandler) *gin.Engine {
 	server := gin.Default() // 初始化一个默认的 Gin 引擎实例
 	gin.ForceConsoleColor() // 强制开启控制台的彩色输出
 
 	// 使用传入的中间件
 	server.Use(funcs...)
 
-	// 注册用户相关的路由
+	// 注册路由
 	userHdl.RegisterRoutes(server)
+	summaryHdl.RegisterRoutes(server)
 
 	return server // 返回配置好的 Gin 引擎实例
 }

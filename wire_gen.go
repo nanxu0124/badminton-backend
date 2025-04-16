@@ -38,6 +38,11 @@ func InitWebServer() *gin.Engine {
 	codeRepository := repository.NewCachedCodeRepository(codeCache)
 	codeService := service.NewSMSCodeService(smsService, codeRepository, logger)
 	userHandler := web.NewUserHandler(userService, codeService, handler)
-	engine := ioc.InitWebServer(v, userHandler)
+	dailySummaryDAO := dao.NewGormDailySummaryDAO(db)
+	dailySummaryCache := cache.NewRedisDailySummaryCache(cmdable)
+	dailySummaryRepository := repository.NewDailySummaryRepository(dailySummaryDAO, dailySummaryCache)
+	dailySummaryService := service.NewDailySummaryService(dailySummaryRepository)
+	dailySummaryHandler := web.NewDailySummaryHandler(dailySummaryService)
+	engine := ioc.InitWebServer(v, userHandler, dailySummaryHandler)
 	return engine
 }
